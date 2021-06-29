@@ -1,13 +1,18 @@
 <template>
   <div class="lista-divisas">
     <h1>{{ titulo }}</h1>
-    <h3>{{ convertirFecha }}</h3>
+    <div>
+      <input type="number" v-model="valorEscrito" />
+    </div>
+    <h1>{{ valorConvertido }}</h1>
+    <h3 v-if="fecha !== ''">{{ convertirFecha }}</h3>
     <ul>
       <!-- bucle de carga de las divisas -->
       <Item
         v-for="(valor, nombre, index) of divisas"
         v-bind:key="index"
         v-bind:datos="{ nombre, valor }"
+        v-bind:funcionRecuperadoraClick="convierteDivisa"
       />
     </ul>
   </div>
@@ -31,6 +36,8 @@ export default {
     return {
       divisas: {},
       fecha: "",
+      valorConvertido: 0,
+      valorEscrito: 0,
     };
   },
   computed: {
@@ -55,6 +62,12 @@ export default {
         this.fecha = data.date;
         console.log(this.divisas);
       });
+  },
+
+  methods: {
+    convierteDivisa: function (datos) {
+      this.valorConvertido = this.valorEscrito * datos.valor;
+    },
   },
 };
 </script>
